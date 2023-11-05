@@ -443,7 +443,63 @@ villager = FatesClass
   [("Aptitude", 1), ("Underdog", 10)]
   [masterOfArms, merchant]
 
--- special class (TODO)
+-- dlc and amiibo classes
+
+dreadFighter :: FatesClass
+dreadFighter = FatesClass
+  [19, 8, 3, 6, 8, 1, 6, 9]
+  [15, 15, 5, 5, 15, 0, 5, 20]
+  [("Even Keel", 1), ("Iron Will", 10), ("Clarity", 25), ("Aggressor", 35)]
+  []
+
+darkFalcon :: FatesClass
+darkFalcon = FatesClass
+  [17, 4, 7, 5, 9, 4, 3, 9]
+  [0, 10, 15, 5, 15, 15, 0, 20]
+  [("Speed +2", 1), ("Relief", 10), ("Rally Movement", 25), ("Galeforce", 35)]
+  []
+
+ballistician :: FatesClass
+ballistician = FatesClass
+  [18, 10, 0, 7, 2, 4, 3, 1]
+  [5, 25, 0, 15, 0, 10, 5, 5]
+  [("Survey", 1), ("Opportunity Shot", 10), ("Rifled Barrel", 25), ("Surefooted", 35)]
+  []
+
+witch :: FatesClass
+witch = FatesClass
+  [17, 0, 10, 5, 9, 3, 4, 5]
+  [5, 0, 25, 5, 20, 5, 0, 10]
+  [("Shadowgift", 1), ("Witch's Brew", 10), ("Warp", 25), ("Toxic Brew", 35)]
+  []
+
+lodestar :: FatesClass
+lodestar = FatesClass
+  [19, 7, 0, 10, 9, 7, 7, 2]
+  [15, 10, 0, 20, 10, 25, 5, 5]
+  [("Dancing Blade", 1), ("Charm", 10), ("Dual Guarder", 25), ("Speedtaker", 35)]
+  []
+
+vanguard :: FatesClass
+vanguard = FatesClass
+  [21, 10, 0, 6, 7, 3, 9, 1]
+  [20, 20, 0, 5, 5, 10, 15, 0]
+  [("Heavy Blade", 1), ("Veteran Intuition", 10), ("Aether", 25), ("Strengthtaker", 35)]
+  []
+
+greatLord :: FatesClass
+greatLord = FatesClass
+  [18, 8, 1, 8, 9, 5, 7, 3]
+  [15, 15, 0, 15, 10, 15, 10, 5]
+  [("Dual Striker", 1), ("Charm", 10), ("Aether", 25), ("Awakening", 35)]
+  []
+
+grandmaster :: FatesClass
+grandmaster = FatesClass
+  [18, 7, 6, 8, 7, 2, 6, 8]
+  [10, 15, 15, 15, 5, 0, 5, 15]
+  [("Tactical Advice", 1), ("Solidarity", 10), ("Ignis", 25), ("Rally Spectrum", 35)]
+  []
 
 
 -- class inheritance for children goes in order of

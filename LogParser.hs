@@ -16,6 +16,10 @@ toCharacters logString = map (drop 1) characterChunks
   -- the groups the rest into 13-length chunks before removing newlines
     
 
+-- get name of unit from a characterchunk
+unitName :: CharacterChunk -> String
+unitName = (drop 6 . head)
+
 -- gets list of classes a character has access to
 -- in order of primary, secondary, reclasses
 -- FatesUnit will do work of grabbing whichever is basic class from (primary, secondary)
