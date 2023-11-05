@@ -36,7 +36,7 @@ expectedStat base growth lvls = fromIntegral(base) + (growth/100)*fromIntegral(l
 -- class is bases + growths + skills + promotions
 -- not worrying about weapon ranks or stuff like that
 data FatesClass = FatesClass BaseStats GrowthRates [Skill] [FatesClass]
-  deriving Eq
+  deriving (Eq, Show)
 
 
 
@@ -509,7 +509,76 @@ grandmaster = FatesClass
 -- azura cannot pass down songstress in the base game
 
 
--- need to do some testing to determine how the ordering works in the randomizer, since the order may differ
+-- class names used in the log file
+classNames :: [(String, FatesClass)]
+classNames =
+  [("Nohr Prince", nohrPrince),
+   ("Nohr Princess", nohrPrince),
+   ("Cavalier", cavalier),
+   ("Paladin", paladin),
+   ("Great Knight", greatKnight),
+   ("Knight", knight),
+   ("General", general),
+   ("Fighter", fighter),
+   ("Berserker", berserker),
+   ("Mercenary", mercenary),
+   ("Hero", hero),
+   ("Bow Knight", bowKnight),
+   ("Outlaw", outlaw),
+   ("Wyvern Rider", wyvernRider),
+   ("Wyvern Lord", wyvernLord),
+   ("Malig Knight", maligKnight),
+   ("Dark Mage", darkMage),
+   ("Sorcerer", sorcerer),
+   ("Dark Knight", darkKnight),
+   ("Troubadour", troubadourM), -- can only be resolved by knowing unit
+   ("Strategist", strategist),
+   ("Maid", maidButler),
+   ("Butler", maidButler),
+   ("Wolfskin", wolfskin),
+   ("Wolfssegner", wolfssegner),
+   ("Samurai", samurai),
+   ("Swordmaster", swordmaster),
+   ("Master of Arms", masterOfArms),
+   ("Oni Savage", oniSavage),
+   ("Oni Chieftain", oniChieftain),
+   ("Blacksmith", blacksmith),
+   ("Spear Fighter", spearFighter),
+   ("Basara", basara),
+   ("Diviner", diviner),
+   ("Onmyoji", onmyoji),
+   ("Monk", monk),
+   ("Shrine Maiden", shrineMaiden),
+   ("Great Master", greatMaster),
+   ("Priestess", priestess),
+   ("Sky Knight", skyKnight),
+   ("Falcon Knight", falconKnight),
+   ("Kinshi Knight", kinshiKnight),
+   ("Archer", archer),
+   ("Sniper", sniper),
+   ("Ninja", ninja),
+   ("Master Ninja", masterNinja),
+   ("Mechanist", mechanist),
+   ("Apothecary", apothecary),
+   ("Merchant", merchant),
+   ("Kitsune", kitsune),
+   ("Nine-Tails", nineTails),
+   ("Songstress", songstress),
+   ("Villager", villager),
+   ("Dread Fighter", dreadFighter),
+   ("Dark Falcon", darkFalcon),
+   ("Ballistician", ballistician),
+   ("Witch", witch),
+   ("Lodestar", lodestar),
+   ("Vanguard", vanguard),
+   ("Great Lord", greatLord),
+   ("Grandmaster", grandmaster)]
+
+
+-- attempt to read a class from a string
+readClass :: String -> Maybe FatesClass
+readClass = (flip lookup) classNames
+
 
 
 
