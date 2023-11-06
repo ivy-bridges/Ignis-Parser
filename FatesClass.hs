@@ -12,7 +12,6 @@ import Data.List
 import Data.Tuple
 import Data.Maybe
 
---i
 
 -- growth rates are an ordered list of doubles
 type GrowthRates = [Double]
@@ -532,6 +531,7 @@ classNames =
    ("Sorcerer", sorcerer),
    ("Dark Knight", darkKnight),
    ("Troubadour", troubadourM), -- can only be resolved by knowing unit
+   ("Troubadour", troubadourF),
    ("Strategist", strategist),
    ("Maid", maidButler),
    ("Butler", maidButler),
@@ -578,6 +578,9 @@ classNames =
 -- attempt to read a class from a string
 readClass :: String -> Maybe FatesClass
 readClass = (flip lookup) classNames
+
+showClass :: FatesClass -> String
+showClass = fromMaybe "Invalid Class" . (flip lookup) (map swap classNames)
 
 
 
@@ -629,12 +632,11 @@ getInheritances classes = classes ++ parallels
   where parallels = catMaybes (map getParallel classes)
 
 
--- given a list of classes from a to b, determine which class from a gets passed to b
+-- given a list of classes a and b, append the class that gets passed from a to b
 -- primary, secondaries, and parallels should be put together and ordered before calling this function
-determinePass :: [FatesClass] -> [FatesClass] -> Maybe FatesClass
-determinePass [] _ = Nothing
-determinePass source dest
-  | passAttempt `elem` dest = determinePass (tail source) dest
-  | otherwise = Just passAttempt
-  where passAttempt = head source
+determinePass :: [FatesClass] -> [FatesClass] -> [FatesClass]
+determinePass [] dest = dest
+determinePass (x:xs) dest
+  | x `elem` dest = determinePass xs dest
+  | otherwise = dest ++ [x]
 

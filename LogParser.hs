@@ -16,9 +16,12 @@ toCharacters logString = map (drop 1) characterChunks
   -- the groups the rest into 13-length chunks before removing newlines
     
 
--- get name of unit from a characterchunk
+-- get name of unit and replaced from a characterchunk
 unitName :: CharacterChunk -> String
 unitName = (drop 6 . head)
+
+replacedName :: CharacterChunk -> String
+replacedName = (drop 11 . head . tail)
 
 -- gets list of classes a character has access to
 -- in order of primary, secondary, reclasses
@@ -50,13 +53,18 @@ skillList characterChunk = (personal, map (dropWhile (==' ')) equipped)
           | otherwise     = (x:head acc):(tail acc)
           where ignoredChar x = elem x "'[]"
 
+-- get base stats and growths of a character
+readBases :: CharacterChunk -> [Int]
+readBases characterChunk = read $ drop 7 (characterChunk !! 7)
+
+readGrowths :: CharacterChunk -> [Double]
+readGrowths characterChunk = read $ drop 9 (characterChunk !! 8)
+
 -- returns tuple of (character, replaced)
 -- where "character" is the unit that is replacing "replaced"
 toSwap :: CharacterChunk -> (String, String)
-toSwap characterChunk = (charName, replacedName)
-  where
-    charName     = drop 6  $ head characterChunk -- "Name: " from first line
-    replacedName = drop 11 $ (head . tail) characterChunk -- "Replacing: " from second line
+toSwap characterChunk = (unitName characterChunk, replacedName characterChunk)
+
 
 
 -- breaks a list into chunks of length n
