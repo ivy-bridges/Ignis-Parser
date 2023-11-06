@@ -1,12 +1,7 @@
 module FatesClass where
 
--- the ignis randomizer does not, to my knowledge, alter the behavior of any classes (skills, growths, promotions)
--- the purpose of this module is simply to format that data in a way that is understandable by FatesUnit
-
--- i don't think i'm going to do any skill-dipping pathfinding here
--- i do need to check how friendship and partner classes are passed, though
-
-
+-- data pertaining to base-game classes
+-- this is not touched by the randomizer
 
 import Data.List
 import Data.Tuple
@@ -23,25 +18,13 @@ type BaseStats = [Int]
 type Skill = String
 
 
-expectedStat :: Int -> Double -> Int -> Double
-expectedStat base growth lvls = fromIntegral(base) + (growth/100)*fromIntegral(lvls)
 
---expectedStats :: BaseStats -> GrowthRates -> Int -> [Double]
---expectedStats bases growths lvls = map 
-
-
--- promotion set is another Class
-
--- class is bases + growths + skills + promotions
--- not worrying about weapon ranks or stuff like that
+-- we care about a class's bases, growths, skills, and promotions
 data FatesClass = FatesClass BaseStats GrowthRates [(Skill, Int)] [FatesClass]
   deriving (Eq, Show)
 
 
-
--- okay. let's define. each of them. by hand. because
--- promoted and then basic so that we can actually list the promotions
--- except i don't think that matters in haskell, because it's Good
+-- defining classes
 
 nohrPrince :: FatesClass
 nohrPrince = FatesClass
@@ -501,13 +484,6 @@ grandmaster = FatesClass
   []
 
 
--- class inheritance for children goes in order of
--- [child's default] and then [father's class] and then [mother's class]
--- on each of the inheritance checks, it goes in order of
--- [primary class] and then [secondary class] and then parallels of each
--- azura cannot pass down songstress in the base game
-
-
 -- class names used in the log file
 classNames :: [(String, FatesClass)]
 classNames =
@@ -579,6 +555,7 @@ classNames =
 readClass :: String -> Maybe FatesClass
 readClass = (flip lookup) classNames
 
+-- attempt to grab name from classNames
 showClass :: FatesClass -> String
 showClass = fromMaybe "Invalid Class" . (flip lookup) (map swap classNames)
 
@@ -586,9 +563,7 @@ showClass = fromMaybe "Invalid Class" . (flip lookup) (map swap classNames)
 
 
 -- these are the parallel classes used when a child already has both primary and secondary
--- parallel classes are NOT symmetrical (!!), and some classes have none
--- sourced from selenes forest
--- https://serenesforest.net/fire-emblem-fates/classes/parallel-classes/
+-- parallel classes are not symmetrical, and some classes have none
 parallelClasses :: [(FatesClass, FatesClass)]
 parallelClasses = [(cavalier,    ninja),
                    (knight,      spearFighter),
@@ -608,10 +583,8 @@ parallelClasses = [(cavalier,    ninja),
 
 -- get a parallel class if one exists
 getParallel :: FatesClass -> Maybe FatesClass
-getParallel originalClass = snd <$> potentialMatch
-  where
-    potentialMatch = find (\(a,b) -> a == originalClass) parallelClasses
-    -- could use concatenation instead of this lambda but that's uglier
+getParallel originalClass = lookup originalClass parallelClasses
+
 
 -- correct for gendered classes, if necessary
 -- here, "True" indicates that a unit is male
@@ -639,4 +612,3 @@ determinePass [] dest = dest
 determinePass (x:xs) dest
   | x `elem` dest = determinePass xs dest
   | otherwise = dest ++ [x]
-

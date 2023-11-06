@@ -3,10 +3,9 @@ module LogParser where
 -- functions to break the log file into useful, typed, data
 -- that is, strings and [ints] and [doubles] to be passed to constructors in FatesUnit
 
--- this data will be shaped by FatesUnit and displayed in Main
 
--- right now it just breaks it up into strings, though
 
+-- characters in the log file are represented by blocks of text
 type CharacterChunk = [String]
 
 toCharacters :: String -> [CharacterChunk]
@@ -25,15 +24,13 @@ readReplaced = (drop 11 . head . tail)
 
 -- gets list of classes a character has access to
 -- in order of primary, secondary, reclasses
--- FatesUnit will do work of grabbing whichever is basic class from (primary, secondary)
--- and will also scrub Nones from reclasses. we are only manipulating strings here
 readClasses :: CharacterChunk -> [String]
 readClasses characterChunk = primaryClass:secondaryClass:reclasses
   where
     primaryClass   = drop 15 (characterChunk !! 2) -- drop "Primary Class: " from third line
     secondaryClass = drop 17 (characterChunk !! 3) -- drop "Secondary Class: " from fourth line
     reclasses = [firstReclass, drop 2 secondReclass]
-    -- characters have at most two reclasses, either of which may be None
+    -- characters have at most two reclasses
     (firstReclass, secondReclass) = (break (==',') . drop 11) (characterChunk !!  4) -- drop "Reclasses: " and then break at comma
     
 
@@ -41,7 +38,6 @@ readClasses characterChunk = primaryClass:secondaryClass:reclasses
 -- a character has one personal skill and then some number of equipped skills
 readSkills :: CharacterChunk -> (String, [String])
 readSkills characterChunk = (personal, map (dropWhile (==' ')) equipped)
-
   where personal = drop 16 (characterChunk !! 5) -- drop "Personal Skill: "
         -- we move through the (string) list of equipped skills to make a [string]
         -- ignoring ' quotes and [] brackets, and breaking into new values at , commas

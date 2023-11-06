@@ -4,15 +4,11 @@ import Data.List
 
 import FatesClass
 
--- TODO: use actual datatypes
 
 -- (personal skill, [equipped skills])
 type Skillset = (Skill, [Skill])
 
--- fates unit need name, replaced, class, skills, base, growths
--- gender, parenthood, children can be stored in an external list
-
--- we care about a unit's name, classset, skillset, base stats, and growths
+-- we care about a unit's name, class set, skill set, base stats, and growths
 data FatesUnit = FatesUnit String [FatesClass] Skillset BaseStats GrowthRates
   deriving Eq
 
@@ -56,7 +52,6 @@ baseChildren = ["Kana (M)", "Kana (F)", "Dwyer", "Midori", "Shigure", "Sophie", 
 basePairs = zip baseParents baseChildren
 
 -- for monk/shrine maiden and troubadour differences
--- i don't know a non-weird way to store the info required to distinguish
 maleUnits = ["Corrin (M)", "Jakob", "Kaze", "Silas", "Subaki", "Saizo", "Azama", "Hayato", "Hinata", "Takumi", "Kaden", "Ryoma", "Arthur", "Odin", "Niles", "Laslow", "Benny", "Leo", "Keaton", "Xander", "Izana", "Fuga", "Yukimura", "Kana (M)", "Dwyer", "Shigure", "Asugi", "Hisame", "Kiragi", "Shiro", "Percy", "Ignatius", "Forrest", "Siegbert", "Marth", "Ike", "Robin"]
 
 
