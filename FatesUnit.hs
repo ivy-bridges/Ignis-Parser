@@ -14,7 +14,34 @@ type Skillset = (Skill, [Skill])
 
 -- we care about a unit's name, classset, skillset, base stats, and growths
 data FatesUnit = FatesUnit String [FatesClass] Skillset BaseStats GrowthRates
+  deriving Eq
 
+-- defining string representation
+instance Show FatesUnit where
+  show (FatesUnit name classes skills bases growths) = unwords [name, classlist]
+    where classlist = show $ (map showClass classes)
+
+-- accessor methods
+getName :: FatesUnit -> String
+getName (FatesUnit n _ _ _ _) = n
+
+getClasses :: FatesUnit -> [FatesClass]
+getClasses (FatesUnit _ c _ _ _) = c
+
+getPrimary :: FatesUnit -> Skill
+getPrimary (FatesUnit _ _ (p,_) _ _) = p
+
+getEquipped :: FatesUnit -> [Skill]
+getEquipped (FatesUnit _ _ (_,e) _ _) = e
+
+getSkillset :: FatesUnit -> Skillset
+getSkillset (FatesUnit _ _ s _ _) = s
+
+getBases :: FatesUnit -> [Int]
+getBases (FatesUnit _ _ _ b _) = b
+
+getGrowths :: FatesUnit -> [Double]
+getGrowths (FatesUnit _ _ _ _ g) = g
 
 
 -- in the base game, these (non-corrin) characters have children
@@ -40,10 +67,22 @@ readUnit name classes skills bases growths = FatesUnit name correctedClasses ski
   where
     correctedClasses = map (genderedClass (elem name maleUnits)) classes
 
--- characters in the output log are blocks of text
--- given a block of text, determine whether the given character is a parent
+-- return whether a character is a parent in the base game
+isParent :: String -> Bool
+isParent = flip elem baseParents
 
-isParent :: (String, String) -> Bool
-isParent (a,b) = elem b baseParents
+
+-- when passing classes down to a child in the base game, the father attempts before the mother
+-- i'm not sure how that precedence works in a randomizer without further testing
+
+-- collects passable clases from both, corrects for child's gender, then attempts passes in order of parent->spouse
+childClassSet :: FatesUnit -> FatesUnit -> FatesUnit -> [FatesClass]
+childClassSet parent spouse child = (determinePass spouseClasses . determinePass parentClasses) (getClasses child)
+  where
+    parentClasses = map (genderedClass childGender) $ (getInheritances . getClasses) parent
+    spouseClasses = map (genderedClass childGender) $ (getInheritances . getClasses) spouse
+    childGender   = elem (getName child) maleUnits
+
+
 
 
