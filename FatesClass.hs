@@ -614,10 +614,10 @@ getParallel originalClass = snd <$> potentialMatch
 -- here, "True" indicates that a unit is male
 genderedClass :: Bool -> FatesClass -> FatesClass
 genderedClass True c
-  | c == monk                = shrineMaiden
+  | c == shrineMaiden        = monk
   | c == troubadourF         = troubadourM
 genderedClass False c
-  | c == shrineMaiden        = monk
+  | c == monk                = shrineMaiden
   | c == troubadourM         = troubadourF
 genderedClass _ agenderClass = agenderClass
 
