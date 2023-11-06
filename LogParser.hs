@@ -17,18 +17,18 @@ toCharacters logString = map (drop 1) characterChunks
     
 
 -- get name of unit and replaced from a characterchunk
-unitName :: CharacterChunk -> String
-unitName = (drop 6 . head)
+readName :: CharacterChunk -> String
+readName = (drop 6 . head)
 
-replacedName :: CharacterChunk -> String
-replacedName = (drop 11 . head . tail)
+readReplaced :: CharacterChunk -> String
+readReplaced = (drop 11 . head . tail)
 
 -- gets list of classes a character has access to
 -- in order of primary, secondary, reclasses
 -- FatesUnit will do work of grabbing whichever is basic class from (primary, secondary)
 -- and will also scrub Nones from reclasses. we are only manipulating strings here
-classList :: CharacterChunk -> [String]
-classList characterChunk = primaryClass:secondaryClass:reclasses
+readClasses :: CharacterChunk -> [String]
+readClasses characterChunk = primaryClass:secondaryClass:reclasses
   where
     primaryClass   = drop 15 (characterChunk !! 2) -- drop "Primary Class: " from third line
     secondaryClass = drop 17 (characterChunk !! 3) -- drop "Secondary Class: " from fourth line
@@ -39,8 +39,8 @@ classList characterChunk = primaryClass:secondaryClass:reclasses
 
 -- gets lists of skills a character starts with
 -- a character has one personal skill and then some number of equipped skills
-skillList :: CharacterChunk -> (String, [String])
-skillList characterChunk = (personal, map (dropWhile (==' ')) equipped)
+readSkills :: CharacterChunk -> (String, [String])
+readSkills characterChunk = (personal, map (dropWhile (==' ')) equipped)
 
   where personal = drop 16 (characterChunk !! 5) -- drop "Personal Skill: "
         -- we move through the (string) list of equipped skills to make a [string]
@@ -63,7 +63,7 @@ readGrowths characterChunk = read $ drop 9 (characterChunk !! 8)
 -- returns tuple of (character, replaced)
 -- where "character" is the unit that is replacing "replaced"
 toSwap :: CharacterChunk -> (String, String)
-toSwap characterChunk = (unitName characterChunk, replacedName characterChunk)
+toSwap characterChunk = (readName characterChunk, readReplaced characterChunk)
 
 
 
