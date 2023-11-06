@@ -20,8 +20,8 @@ type GrowthRates = [Double]
 -- base stats are an ordered list of ints 
 type BaseStats = [Int]
 
--- skill is (name of skill, level learned)
-type Skill = (String, Int)
+-- class skills are stored as (name of skill, level learned)
+type Skill = String
 
 
 expectedStat :: Int -> Double -> Int -> Double
@@ -35,7 +35,7 @@ expectedStat base growth lvls = fromIntegral(base) + (growth/100)*fromIntegral(l
 
 -- class is bases + growths + skills + promotions
 -- not worrying about weapon ranks or stuff like that
-data FatesClass = FatesClass BaseStats GrowthRates [Skill] [FatesClass]
+data FatesClass = FatesClass BaseStats GrowthRates [(Skill, Int)] [FatesClass]
   deriving (Eq, Show)
 
 
@@ -602,12 +602,25 @@ parallelClasses = [(cavalier,    ninja),
                    (songstress,  troubadourM),
                    (villager,    apothecary)]
 
+
 -- get a parallel class if one exists
 getParallel :: FatesClass -> Maybe FatesClass
 getParallel originalClass = snd <$> potentialMatch
   where
     potentialMatch = find (\(a,b) -> a == originalClass) parallelClasses
     -- could use concatenation instead of this lambda but that's uglier
+
+-- correct for gendered classes, if necessary
+-- here, "True" indicates that a unit is male
+genderedClass :: Bool -> FatesClass -> FatesClass
+genderedClass True c
+  | c == monk                = shrineMaiden
+  | c == troubadourF         = troubadourM
+genderedClass False c
+  | c == shrineMaiden        = monk
+  | c == troubadourM         = troubadourF
+genderedClass _ agenderClass = agenderClass
+
 
 -- given a list of classes, get the list of classes that the unit will attempt to pass down for inheritance
 -- this just grabs the parallel classes for each, if any, in order
