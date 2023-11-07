@@ -14,7 +14,7 @@ data FatesUnit = FatesUnit String [FatesClass] Skillset BaseStats GrowthRates
 
 -- defining string representation
 instance Show FatesUnit where
-  show (FatesUnit name classes skills bases growths) = unwords [name, classlist]
+  show (FatesUnit name classes (personal, skills) bases growths) = unwords [name, classlist, personal]
     where classlist = show $ (map showClass classes)
 
 -- accessor methods
@@ -54,7 +54,16 @@ basePairs = zip baseParents baseChildren
 -- for monk/shrine maiden and troubadour differences
 maleUnits = ["Corrin (M)", "Jakob", "Kaze", "Silas", "Subaki", "Saizo", "Azama", "Hayato", "Hinata", "Takumi", "Kaden", "Ryoma", "Arthur", "Odin", "Niles", "Laslow", "Benny", "Leo", "Keaton", "Xander", "Izana", "Fuga", "Yukimura", "Kana (M)", "Dwyer", "Shigure", "Asugi", "Hisame", "Kiragi", "Shiro", "Percy", "Ignatius", "Forrest", "Siegbert", "Marth", "Ike", "Robin"]
 
+-- units available on specific routes
+birthrightUnits = ["Corrin (M)", "Corrin (F)", "Felicia", "Jakob", "Kaze", "Rinkah", "Azura", "Sakura", "Hana", "Subaki", "Silas", "Saizo", "Orochi", "Mozu", "Hinoka", "Azama", "Setsuna", "Hayato", "Oboro", "Hinata", "Takumi", "Kagero", "Reina", "Kaden", "Ryoma", "Scarlet", "Izana", "Shura", "Yukimura", "Kana (M)", "Kana (F)", "Shigure", "Dwyer", "Sophie", "Midori", "Shiro", "Kiragi", "Asugi", "Selkie", "Hisame", "Mitama", "Caeldori", "Rhajat", "Marth", "Ike", "Lucina", "Robin", "Anna"]
 
+conquestUnits = ["Corrin (M)", "Corrin (F)", "Gunter", "Felicia", "Jakob", "Kaze", "Azura", "Elise", "Silas", "Arthur", "Effie", "Mozu", "Odin", "Niles", "Nyx", "Camilla", "Selena", "Beruka", "Laslow", "Peri", "Benny", "Charlotte", "Leo", "Keaton", "Xander", "Shura", "Flora", "Izana", "Kana (M)", "Kana (F)", "Shigure", "Dwyer", "Sophie", "Midori", "Forrest", "Ignatius", "Velouria", "Percy", "Ophelia", "Soleil", "Nina", "Marth", "Ike", "Lucina", "Robin", "Anna"]
+
+-- combine lists and remove exclusives
+revelationUnits = nub $ (birthrightUnits ++ conquestUnits ++ ["Fuga"]) \\ ["Yukimura", "Izana"]
+
+-- units available during the prologue
+prologueUnits = ["Corrin (M)", "Corrin (F)", "Gunter", "Felicia", "Jakob", "Kaze", "Rinkah", "Azura", "Sakura"]
 
 -- constructor that accounts for gendered class differences
 readUnit :: String -> [FatesClass] -> Skillset -> BaseStats -> GrowthRates -> FatesUnit
