@@ -57,7 +57,7 @@ maleUnits = ["Corrin (M)", "Jakob", "Kaze", "Silas", "Subaki", "Saizo", "Azama",
 -- units available on specific routes
 birthrightUnits = ["Corrin (M)", "Corrin (F)", "Felicia", "Jakob", "Kaze", "Rinkah", "Azura", "Sakura", "Hana", "Subaki", "Silas", "Saizo", "Orochi", "Mozu", "Hinoka", "Azama", "Setsuna", "Hayato", "Oboro", "Hinata", "Takumi", "Kagero", "Reina", "Kaden", "Ryoma", "Scarlet", "Izana", "Shura", "Yukimura", "Kana (M)", "Kana (F)", "Shigure", "Dwyer", "Sophie", "Midori", "Shiro", "Kiragi", "Asugi", "Selkie", "Hisame", "Mitama", "Caeldori", "Rhajat", "Marth", "Ike", "Lucina", "Robin", "Anna"]
 
-conquestUnits = ["Corrin (M)", "Corrin (F)", "Gunter", "Felicia", "Jakob", "Kaze", "Azura", "Elise", "Silas", "Arthur", "Effie", "Mozu", "Odin", "Niles", "Nyx", "Camilla", "Selena", "Beruka", "Laslow", "Peri", "Benny", "Charlotte", "Leo", "Keaton", "Xander", "Shura", "Flora", "Izana", "Kana (M)", "Kana (F)", "Shigure", "Dwyer", "Sophie", "Midori", "Forrest", "Ignatius", "Velouria", "Percy", "Ophelia", "Soleil", "Nina", "Marth", "Ike", "Lucina", "Robin", "Anna"]
+conquestUnits = ["Corrin (M)", "Corrin (F)", "Gunter", "Felicia", "Jakob", "Kaze", "Azura", "Elise", "Silas", "Arthur", "Effie", "Mozu", "Odin", "Niles", "Nyx", "Camilla", "Selena", "Beruka", "Laslow", "Peri", "Benny", "Charlotte", "Leo", "Keaton", "Xander", "Shura", "Flora", "Izana", "Kana (M)", "Kana (F)", "Shigure", "Dwyer", "Sophie", "Midori", "Siegbert", "Forrest", "Ignatius", "Velouria", "Percy", "Ophelia", "Soleil", "Nina", "Marth", "Ike", "Lucina", "Robin", "Anna"]
 
 -- combine lists and remove exclusives
 revelationUnits = nub $ (birthrightUnits ++ conquestUnits ++ ["Fuga"]) \\ ["Yukimura", "Izana"]
